@@ -1,7 +1,8 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
@@ -77,6 +78,69 @@ app.get('/read-products', async (req, res) => {
     catch (error) {
         console.log(error)
         res.status(500).json({ message: 'internal server error' });
+    }
+});
+
+app.delete('/delete-product/:_id', async(req, res)=>{
+    try{
+        const collection = await connect();
+        const data = await collection.findOne({_id: new ObjectId(req.params._id)});
+
+        if(!data) return res.status(401).json({message: 'invalid object id'});
+
+        if(fs.existsSync(`./uploads/${data.thumbnail}`)) fs.unlinkSync(`./uploads/${data.thumbnail}`);
+
+        data.images.forEach((img)=>{
+            if(fs.existsSync(`./uploads/${img}`)) fs.unlinkSync(`./uploads/${img}`);
+        })
+
+        const response = await collection.deleteOne({_id: new ObjectId(req.params._id)});
+
+        res.status(200).json({message: 'data deleted', data: response});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: 'internal server error'});
+    }
+});
+
+app.put('/update-product/:id',uploads, async(req, res)=>{
+    try{
+        const collection = await connect();
+        const data = req.body;
+
+        const olddata = await collection.findOne({_id: new ObjectId(req.params.id)});
+        console.log(olddata);
+        if(!olddata) return res.status(401).json({message: 'invalid object id'});
+        
+        if(req.files){
+            if (req.files.thumbnail) {
+                data.thumbnail = req.files.thumbnail[0].filename;
+
+                if(fs.existsSync(`./uploads/${olddata.thumbnail}`)) fs.unlinkSync(`./uploads/${olddata.thumbnail}`);
+            }
+
+            if (req.files.images) {
+                data.images = req.files.images.map((file) => file.filename);
+
+                olddata.images.forEach((img)=>{
+                    if(fs.existsSync(`./uploads/${img}`)) fs.unlinkSync(`./uploads/${img}`);
+                })
+            }
+        };
+
+        const response = await collection.updateOne(
+            {_id: new ObjectId(req.params.id)},
+            {
+                $set: data
+            }
+        );
+
+        res.status(200).json({message: 'success', data: response});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message: 'internal server error'});
     }
 });
 
