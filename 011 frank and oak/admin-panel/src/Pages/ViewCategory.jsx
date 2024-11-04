@@ -3,12 +3,57 @@ import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+import 'react-tooltip/dist/react-tooltip.css';
+import { Tooltip } from 'react-tooltip';
+import Swal from "sweetalert2";
 
 const ViewCategory = () => {
   let [show1, setShow1] = useState(false);
   let [show2, setShow2] = useState(false);
   let [show3, setShow3] = useState(false);
   let [show4, setShow4] = useState(false);
+
+  const [categories, setCategories] = useState([]);
+
+  const handleFetchCategories = ()=>{
+    axios.get(`${process.env.REACT_APP_API_URL}admin-panel/parent-category/read-categories`)
+    .then((response)=>{
+      console.log(response.data);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Status updated",
+        showConfirmButton: false,
+        timer: 800
+      });
+      setCategories(response.data.data)
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  };
+
+  useEffect(
+    ()=>{
+      handleFetchCategories();
+    },[]);
+
+    const handleUpdateStatus = (e)=>{
+
+      const status = e.target.textContent !== 'Active';
+
+      axios.put(`${process.env.REACT_APP_API_URL}admin-panel/parent-category/update-status/${e.target.value}`, {status})
+      .then((response)=>{
+        console.log(response.data);
+        handleFetchCategories();
+  
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+
+      console.log(status);
+    }
 
  
   return (
@@ -42,8 +87,14 @@ const ViewCategory = () => {
             </tr>
           </thead>
           <tbody>
-           
-            <tr className="border-b">
+          <Tooltip id="status-tooltip" />
+            {
+              (categories.length === 0) 
+              ?
+               (<div>No Parent Category Available</div>)
+               :
+              categories.map((category, index)=> (
+                <tr className="border-b" key={index}>
                 <td>
                   <input
                     type="checkbox"
@@ -54,10 +105,10 @@ const ViewCategory = () => {
                    
                   />
                 </td>
-                <td>1</td>
-                <td>name</td>
+                <td>{ index + 1}</td>
+                <td>{category.name}</td>
                 <td className="w-[200px] flex-wrap p-1">
-                  discription
+                  {category.description}
                   <span
                     onClick={() => setShow1(!show1)}
                     className={
@@ -82,14 +133,22 @@ const ViewCategory = () => {
                   </Link>
                 </td>
                 <td>
+               
                   <button
-                 
-                  className={`p-[4px_10px] rounded-sm  text-white`}
+                  onClick={handleUpdateStatus}
+                  value={category._id}
+                 data-tooltip-id="status-tooltip"
+                 data-tooltip-content={`Click to ${(category.status) ? 'Inactive' : 'Active'}`}
+                  className={`p-[4px_10px] rounded-sm border ${(category.status) ? 'bg-green-500' : 'bg-red-500'}  text-white`}
                   >
-                   
+                   {(category.status) ? 'Active' : 'Inactive'}
                   </button>
                 </td>
               </tr>
+              ))
+            }
+           
+           
            
             
           </tbody>
