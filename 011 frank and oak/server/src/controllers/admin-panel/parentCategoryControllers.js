@@ -42,9 +42,37 @@ const updateParentCategoryStatus = async (req, res) =>{
     }
 };
 
+const deleteParentCategory = async (req, res) =>{
+    try{
+        
+        const data = await ParentCategory.deleteOne(req.params);
+
+        res.status(200).json({message: 'success', data});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message:'internal server'});
+    }
+}
+
+const deleteParentCategories = async (req, res) => {
+    try{
+        console.log(req.body);
+        const data = await ParentCategory.deleteMany({_id: {$in: req.body.checkedCategories}});
+        res.status(200).json({message: 'success'});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message:'internal server'});
+    }
+
+}
+
 module.exports = {
     createParentCategory,
     readParentCategories,
-    updateParentCategoryStatus
+    updateParentCategoryStatus,
+    deleteParentCategory,
+    deleteParentCategories
 
 }
