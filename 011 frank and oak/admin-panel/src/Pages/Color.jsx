@@ -38,7 +38,19 @@ function Color() {
     });
   };
 
+  const handleCreateColor = (e)=>{
+    e.preventDefault();
+    const data = {
+      name: e.target.name.value,
+      code: e.target.code.value
+    };
+
+    console.log(data);
+
+  }
+
   return (
+    <form method='post' onSubmit={handleCreateColor}>
     <div className="w-[90%] bg-white mx-auto rounded-[10px] border my-[150px]">
       <div className="bg-[#f8f8f9] h-[50px] header w-full p-[12px] rounded-[10px_10px_0_0]">
         Add Colors
@@ -47,7 +59,7 @@ function Color() {
         <label htmlFor="color">Color Name</label> <br />
         <input
           type="text"
-          name="color"
+          name="name"
           id="color"
           className="w-full p-[10px] focus:outline-none border my-[10px] rounded-[5px]"
           placeholder="Color Name"
@@ -55,7 +67,7 @@ function Color() {
         <label htmlFor="color_code">Color Code</label> <br />
         <input
           type="text"
-          name="color_code"
+          name="code"
           id="color_code"
           className="w-full p-[10px] focus:outline-none border my-[10px] rounded-[5px]"
           placeholder="Color Code"
@@ -92,11 +104,12 @@ function Color() {
             Pick Color
           </span>
         </div>
-        {/* <button className="bg-[#5351C9] text-white rounded-[5px]  w-[120px] h-[40px]">
-          Select Color
-        </button> */}
+        <button className="bg-[#5351C9] text-white rounded-[5px]  w-[120px] h-[40px]">
+          Add Color
+        </button>
       </div>
     </div>
+    </form>
   );
 }
 

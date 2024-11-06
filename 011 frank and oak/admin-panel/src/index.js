@@ -63,7 +63,7 @@ const routes = createBrowserRouter(
       />
       ,
       <Route
-        path="/dashboard/category/update-category/:_id"
+        path="/dashboard/category/update-category/:id"
         element={<UpdateCategory />}
       />
       ,

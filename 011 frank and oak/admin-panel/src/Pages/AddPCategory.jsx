@@ -2,7 +2,21 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const AddPCategory = () => {
+
+  const [parentCategories, setParentCategories] = useState([]);
   
+const fetchParentCategories = ()=>{
+  axios.get(`${process.env.REACT_APP_API_URL}admin-panel/parent-category/active-categories`)
+  .then((response)=>{
+    console.log(response.data)
+    setParentCategories(response.data.data);
+  })
+  .catch((error)=>{
+    console.log(error)
+  })
+};
+
+useEffect(()=>{fetchParentCategories();},[]);
 
   return (
     <div className="w-[90%] mx-auto my-[150px] bg-white border rounded-[10px]">
@@ -38,11 +52,13 @@ const AddPCategory = () => {
             <label htmlFor="categoryImg" className="block text-[#303640]">
               Parent Category
             </label>
-            <select name="parent_category" id="" className="border w-full rounded-[5px] my-[10px] category input">
-             
-              <option>men</option>
-              <option>women</option>
-              <option>kids</option>
+            <select name="parent_category" id="" className="border w-full p-2 rounded-[5px] my-[10px] category input">
+            <option value='deafult' >--Select Parent Category--</option>
+              {
+                parentCategories.map((category, index) => (
+                  <option key={index} value={category._id} >{category.name}</option>
+                ))
+              }
             </select>
           </div>
           <div className="w-full my-[10px]">

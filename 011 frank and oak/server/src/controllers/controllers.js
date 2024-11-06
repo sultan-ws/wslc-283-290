@@ -6,7 +6,10 @@ const {
     readParentCategories, 
     updateParentCategoryStatus,
     deleteParentCategory,
-    deleteParentCategories
+    deleteParentCategories,
+    readParentCategory,
+    updateParentCatergory,
+    activeParentCategories
 } = require("./admin-panel/parentCategoryControllers");
 
 
@@ -15,5 +18,8 @@ module.exports = {
     readParentCategories,
     updateParentCategoryStatus,
     deleteParentCategory,
-    deleteParentCategories
+    deleteParentCategories,
+    readParentCategory,
+    updateParentCatergory,
+    activeParentCategories
 }

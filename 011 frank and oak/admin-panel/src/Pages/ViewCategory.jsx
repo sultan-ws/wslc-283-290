@@ -221,7 +221,7 @@ const ViewCategory = () => {
                     <td>
                       <MdDelete onClick={() => { handleDeleteCategory(category._id) }} className="my-[5px] text-red-500 cursor-pointer inline" />{" "}
                       |{" "}
-                      <Link to={`/dashboard/category/update-category/${'parentCategory._id'}`}>
+                      <Link to={`/dashboard/category/update-category/${category._id}`}>
                         <CiEdit className="my-[5px] text-yellow-500 cursor-pointer inline" />
                       </Link>
                     </td>
