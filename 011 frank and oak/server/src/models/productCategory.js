@@ -3,10 +3,15 @@ const mongoose = require('mongoose');
 const categorySchema = new mongoose.Schema({
     name:{
         type:String,
-        required:true,
-        unique:true,
+        required:true
     },
     description:String,
+    thumbnail:String,
+    parent_category:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'parent_categories'
+    },
+    slug: String,
     status:{
         type:Boolean,
         default:true
@@ -26,6 +31,6 @@ categorySchema.pre('insertOne', function(){
     this.created_at = new Date();
 });
 
-const ParentCategory = mongoose.model('parent_categories', categorySchema);
+const ProductCategory = mongoose.model('product_category', categorySchema);
 
-module.exports = ParentCategory;
+module.exports = ProductCategory;

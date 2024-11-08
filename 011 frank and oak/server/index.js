@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/fran-and-oak-admin-files', express.static('./src/uploads'));
 
 app.use('/api', allRoutes);
 

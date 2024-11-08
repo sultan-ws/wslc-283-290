@@ -1,9 +1,9 @@
 // **admin panel controllers**
 
 // parent category
-const { 
-    createParentCategory, 
-    readParentCategories, 
+const {
+    createParentCategory,
+    readParentCategories,
     updateParentCategoryStatus,
     deleteParentCategory,
     deleteParentCategories,
@@ -11,6 +11,12 @@ const {
     updateParentCatergory,
     activeParentCategories
 } = require("./admin-panel/parentCategoryControllers");
+
+//product category
+const {
+    createProductCategory,
+    readProductCategories
+} = require("./admin-panel/productCategoryControllers");
 
 
 module.exports = {
@@ -21,5 +27,7 @@ module.exports = {
     deleteParentCategories,
     readParentCategory,
     updateParentCatergory,
-    activeParentCategories
+    activeParentCategories,
+    createProductCategory,
+    readProductCategories
 }
