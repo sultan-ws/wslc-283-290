@@ -22,7 +22,9 @@ const {
 //admin
 const {
     registerAdmin,
-    adminLogin
+    adminLogin,
+    genrateOtp,
+    verifyOtp
 } = require("./admin-panel/adminControllers");
 
 module.exports = {
@@ -37,5 +39,7 @@ module.exports = {
     createProductCategory,
     readProductCategories,
     registerAdmin,
-    adminLogin
+    adminLogin,
+    genrateOtp,
+    verifyOtp
 }

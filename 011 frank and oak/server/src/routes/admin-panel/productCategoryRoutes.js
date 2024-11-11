@@ -8,6 +8,6 @@ const multerUpload = require('../../middlewares/multer');
 const productCategoryRouter = express.Router();
 
 productCategoryRouter.post('/create-category', multerUpload,  createProductCategory);
-productCategoryRouter.get('/read-categories', readProductCategories)
+productCategoryRouter.get('/read-categories', readProductCategories);
 
 module.exports = productCategoryRouter;
