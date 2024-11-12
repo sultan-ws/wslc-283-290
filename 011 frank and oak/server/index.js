@@ -1,6 +1,8 @@
 const express = require('express');
 const allRoutes = require('./src/app');
 const cors = require('cors');
+const { createColor, activeColors } = require('./src/controllers/controllers');
+const { createSize, activeSizes } = require('./src/controllers/admin-panel/sizeControllers');
 require('dotenv').config();
 require('./src/db/config');
 

@@ -16,7 +16,8 @@ const {
 //product category
 const {
     createProductCategory,
-    readProductCategories
+    readProductCategories,
+    productCategoriesByParentCategory
 } = require("./admin-panel/productCategoryControllers");
 
 //admin
@@ -26,6 +27,8 @@ const {
     genrateOtp,
     verifyOtp
 } = require("./admin-panel/adminControllers");
+const { createColor, activeColors } = require("./admin-panel/colorControllers");
+const { createSize, activeSizes } = require("./admin-panel/sizeControllers");
 
 module.exports = {
     createParentCategory,
@@ -41,5 +44,10 @@ module.exports = {
     registerAdmin,
     adminLogin,
     genrateOtp,
-    verifyOtp
+    verifyOtp,
+    createColor,
+    activeColors,
+    createSize,
+    activeSizes,
+    productCategoriesByParentCategory
 }
