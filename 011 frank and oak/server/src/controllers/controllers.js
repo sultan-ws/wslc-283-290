@@ -29,6 +29,7 @@ const {
 } = require("./admin-panel/adminControllers");
 const { createColor, activeColors } = require("./admin-panel/colorControllers");
 const { createSize, activeSizes } = require("./admin-panel/sizeControllers");
+const { createProduct } = require("./admin-panel/productControllers");
 
 module.exports = {
     createParentCategory,
@@ -49,5 +50,6 @@ module.exports = {
     activeColors,
     createSize,
     activeSizes,
-    productCategoriesByParentCategory
+    productCategoriesByParentCategory,
+    createProduct
 }

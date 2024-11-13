@@ -14,6 +14,7 @@ const AddProduct = () => {
 
 
   const fetchParentCategories = () => {
+    
     axios.get(`${process.env.REACT_APP_API_URL}admin-panel/parent-category/active-categories`)
       .then((response) => {
         setParentCategories(response.data.data);
@@ -68,13 +69,26 @@ const AddProduct = () => {
     fetchColors();
     fetchSizes();
   }, []);
+
+  const handleAddProduct = (e)=>{
+    e.preventDefault();
+
+    axios.post(`${process.env.REACT_APP_API_URL}admin-panel/products/create-product`, e.target)
+    .then((response)=>{
+      console.log(response.data);
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  };
+
   return (
     <div className="w-[90%] mx-auto my-[150px] bg-white rounded-[10px] border">
       <span className="block border-b bg-[#f8f8f9] text-[#303640] text-[20px] font-bold p-[8px_16px] h-[40px] rounded-[10px_10px_0_0]">
         Product Details
       </span>
       <div className="w-[90%] mx-auto my-[20px]">
-        <form>
+        <form method='post' onSubmit={handleAddProduct}>
           <div className="w-full my-[10px]">
             <label htmlFor="product_name" className="block text-[#303640]">
               Product Name
@@ -82,7 +96,7 @@ const AddProduct = () => {
             <input
               type="text"
               id="product_name"
-              name="product_name"
+              name="name"
               placeholder="Name"
               className="w-full input border p-2 rounded-[5px] my-[10px]"
             />
@@ -93,7 +107,7 @@ const AddProduct = () => {
             </label>
             <textarea
               id="product_desc"
-              name="product_desc"
+              name="description"
               placeholder="Description"
               rows={3}
               cols={10}
@@ -109,7 +123,7 @@ const AddProduct = () => {
             </label>
             <textarea
               id="product_short_desc"
-              name="product_short_desc"
+              name="short_description"
               placeholder="Short Description"
               rows={2}
               cols={10}
@@ -123,7 +137,7 @@ const AddProduct = () => {
             <input
               type="file"
               id="product_img"
-              name="product_img"
+              name="thumbnail"
               className="w-full input border rounded-[5px] my-[10px] category"
             />
           </div>
@@ -134,7 +148,7 @@ const AddProduct = () => {
             <input
               type="file"
               id="image_animation"
-              name="image_animation"
+              name="secondary_thumbnail"
               className="w-full input border rounded-[5px] my-[10px] category"
             />
           </div>
@@ -145,7 +159,8 @@ const AddProduct = () => {
             <input
               type="file"
               id="product_gallery"
-              name="product_gallery"
+              name="images"
+              multiple
               className="w-full input border rounded-[5px] my-[10px] category"
             />
           </div>
@@ -157,7 +172,7 @@ const AddProduct = () => {
               <input
                 type="text"
                 id="product_price"
-                name="product_price"
+                name="price"
                 placeholder="Product Price"
                 className="w-full input border rounded-[5px] my-[10px] p-2"
               />
@@ -169,7 +184,7 @@ const AddProduct = () => {
               <input
                 type="text"
                 id="product_mrp"
-                name="product_mrp"
+                name="mrp"
                 placeholder="Product MRP"
                 className="w-full input border rounded-[5px] my-[10px] p-2"
               />
@@ -207,15 +222,15 @@ const AddProduct = () => {
                 Manage Stock
               </label>
               <select
-                name="stock"
+                name="ifStock"
                 id="stock"
                 className="p-2 input w-full border rounded-[5px] my-[10px]"
               >
                 <option value="default" selected disabled hidden>
                   --Select Stock--
                 </option>
-                <option value="inStock">In Stock</option>
-                <option value="outStock">Out of Stock</option>
+                <option value={true}>In Stock</option>
+                <option value={false}>Out of Stock</option>
               </select>
             </div>
             <div>
@@ -237,7 +252,7 @@ const AddProduct = () => {
                 Size
               </label>
               <Select
-                name='size'
+                name='sizes'
                 defaultValue={selectedOption}
                 onChange={setSelectedOption}
                 options={sizes}
@@ -249,7 +264,7 @@ const AddProduct = () => {
                 Color
               </label>
               <Select
-                name='color'
+                name='colors'
                 defaultValue={selectedColors}
                 onChange={setSelectedColors}
                 options={colors}
@@ -265,7 +280,7 @@ const AddProduct = () => {
               type="radio"
               name="status"
               id="status"
-              value="0"
+              value={true}
               className="my-[10px] mx-[20px] accent-[#5351c9]"
             />
             <span>Display</span>
@@ -273,7 +288,7 @@ const AddProduct = () => {
               type="radio"
               name="status"
               id="status"
-              value="1"
+              value={false}
               className="my-[10px] mx-[20px] accent-[#5351c9]"
               checked
             />

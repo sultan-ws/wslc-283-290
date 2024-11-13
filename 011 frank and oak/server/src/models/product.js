@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
     short_description: String,
     thumbnail: String,
     secondary_thumbnail: String,
-    images: Oject,
+    images: Object,
     price: Number,
     mrp: Number,
     parent_category: {
@@ -17,14 +17,14 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'product_categories'
     },
-    size: {
+    sizes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'sizes'
-    },
-    color: {
+    }],
+    colors: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'colors'
-    },
+    }],
     ifStock: {
         type: Boolean,
         default: true
