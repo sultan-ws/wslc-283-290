@@ -27,9 +27,17 @@ const {
     genrateOtp,
     verifyOtp
 } = require("./admin-panel/adminControllers");
+
+
 const { createColor, activeColors } = require("./admin-panel/colorControllers");
 const { createSize, activeSizes } = require("./admin-panel/sizeControllers");
 const { createProduct } = require("./admin-panel/productControllers");
+
+
+// **website controllers**
+
+//user
+const { genrateOtpWeb, registerUser, verifyJwt } = require("./website/userControllers");
 
 module.exports = {
     createParentCategory,
@@ -51,5 +59,8 @@ module.exports = {
     createSize,
     activeSizes,
     productCategoriesByParentCategory,
-    createProduct
+    createProduct,
+    genrateOtpWeb,
+    registerUser,
+    verifyJwt
 }
