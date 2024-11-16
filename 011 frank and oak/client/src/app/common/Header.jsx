@@ -13,20 +13,35 @@ import { MenMegaMenu, OurStoryMegaMenu, ThisJustInMegaMenu, WomenMegaMenu } from
 import TextSlider from './TextSlider';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyLogin } from '../redux/slices/userSlice';
+import Cookies from 'js-cookie';
+import { fetchParentCategory } from '../redux/slices/parentCategorySlice';
+import { fetchProductCategory } from '../redux/slices/productCategorySlice';
+
 export default function Header() {
   let [loginStatus,setLoginStatus]=useState(false)
   let [cartStatus,setCartStatus]=useState(false)
   let [menuHover,setMenuHover]=useState(0)
   let [sidebarStatus,setSidebarStatus]=useState(false);
+  const [parentCategories, setParentCategories] = useState([]);
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state)=> state.user.value);
-
-  console.log('user =====>', user);
+  const category = useSelector((state)=> state.parentCategory.value);
 
   useEffect(()=>{
-    dispatch(verifyLogin());
+    if(category.data) setParentCategories(category.data);
+  },[category]);
+
+  console.log('category =====>', category);
+
+  useEffect(()=>{
+    dispatch(fetchParentCategory());
+    dispatch(fetchProductCategory());
+
+    const auth = Cookies.get('frank_user_auth');
+
+    if(!auth) return;
+    dispatch(verifyLogin(auth));
   },[dispatch]);
   
   return (
@@ -41,15 +56,15 @@ export default function Header() {
       <nav className=' basis-[30%] lg:basis-[84%] md:basis-[75%]  flex items-center justify-end lg:justify-between'>
         <div className='lg:block  hidden'>
           <ul className='flex gap-6 text-[15px] font-medium'>
-            <li onMouseOver={()=>setMenuHover(1)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>This Just In
-            <ThisJustInMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
-            </li>
-            <li onMouseOver={()=>setMenuHover(2)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>Women
-            <WomenMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
-            </li>
-            <li onMouseOver={()=>setMenuHover(3)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>Men
-            <MenMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
-            </li>
+            {
+              parentCategories.map((cat, index)=>(
+                <li key={index} onMouseOver={()=>setMenuHover(1)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>
+                  <Link href={`/collections/${cat.name}`}> {cat.name}</Link>
+                <ThisJustInMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
+                </li>
+              ))
+            }
+           
             <li onMouseOver={()=>setMenuHover(4)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>Our Story
             <OurStoryMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
             </li>

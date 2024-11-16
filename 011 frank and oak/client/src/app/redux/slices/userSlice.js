@@ -3,9 +3,9 @@ import axios from "axios";
 
 export const verifyLogin = createAsyncThunk(
     'user/verifyLogin',
-    async (_, thunkApi)=>{
+    async (auth, thunkApi)=>{
         try{
-            const response = await axios.post('http://localhost:4800/api/website/users/verify-login');
+            const response = await axios.post('http://localhost:4800/api/website/users/verify-login', {auth});
             return response.data;
         }
         catch(error){

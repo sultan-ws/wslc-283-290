@@ -71,9 +71,17 @@ const registerUser = async (req, res) => {
 
 const verifyJwt = async(req, res) => {
     try{
-        console.log('verify called');
+        console.log('verify called', req.body);
 
-        res.status(200).json({message:'success'});
+        jwt.verify(req.body.auth,  process.env.JWT_KEY, (error, decode)=>{
+            if(error) return res.status(401).json({message:'invalid token'});
+
+            res.status(200).json({message:'success', data: decode});
+            
+            console.log(decode);
+        })
+
+       
     }
     catch(error){
         console.log(error);
