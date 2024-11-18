@@ -40,6 +40,7 @@ const { createProduct } = require("./admin-panel/productControllers");
 const { genrateOtpWeb, registerUser, verifyJwt } = require("./website/userControllers");
 const { activeParentCategoriesWeb } = require("./website/parentCategoryControllers");
 const { activeProductCategoriesWeb } = require("./website/productCategoryControlles");
+const { activeProductsByParentCategory } = require("./website/productControllers");
 
 module.exports = {
     createParentCategory,
@@ -66,5 +67,6 @@ module.exports = {
     registerUser,
     verifyJwt,
     activeParentCategoriesWeb,
-    activeProductCategoriesWeb
+    activeProductCategoriesWeb,
+    activeProductsByParentCategory
 }
