@@ -2,7 +2,8 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCart } from "../redux/slices/cartSlice";
 // import { QuickAddButton } from "../HomeComponents/ThisJustIn"
 
 export function Card({ product, filepath }) {
@@ -11,6 +12,7 @@ export function Card({ product, filepath }) {
   const [user, setUser] = useState({});
 
   const userData = useSelector((state)=> state.user.value);
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     if(userData.data) setUser(userData.data);
@@ -31,6 +33,7 @@ export function Card({ product, filepath }) {
     axios.post('http://localhost:4800/api/website/cart/create-cart', data)
     .then((response)=>{
       console.log(response.data);
+      dispatch(fetchCart(user._id));
     })
     .catch((error)=>{
       console.log(error);

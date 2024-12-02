@@ -16,6 +16,7 @@ import { verifyLogin } from '../redux/slices/userSlice';
 import Cookies from 'js-cookie';
 import { fetchParentCategory } from '../redux/slices/parentCategorySlice';
 import { fetchProductCategory } from '../redux/slices/productCategorySlice';
+import { fetchCart } from '../redux/slices/cartSlice';
 
 export default function Header() {
   let [loginStatus,setLoginStatus]=useState(false)
@@ -23,14 +24,36 @@ export default function Header() {
   let [menuHover,setMenuHover]=useState(0)
   let [sidebarStatus,setSidebarStatus]=useState(false);
   const [parentCategories, setParentCategories] = useState([]);
+  const [user, setUser] = useState({});
+  const [totalItems, setTotalItems] = useState(null);
 
   const dispatch = useDispatch();
 
   const category = useSelector((state)=> state.parentCategory.value);
+  const userData = useSelector((state)=> state.user.value);
+  const cartData = useSelector((state)=> state.cart.value);
 
   useEffect(()=>{
     if(category.data) setParentCategories(category.data);
   },[category]);
+
+  useEffect(()=>{
+   if(userData.data)  setUser(userData.data);
+  },[userData]);
+
+  useEffect(()=>{
+    console.log('cart', cartData);
+    if(cartData.data){
+      let total = 0;
+
+      cartData.data.forEach((cartItem)=>{
+        total += cartItem.quantity
+      });
+
+      setTotalItems(total);
+
+    }
+   },[cartData]);
 
   console.log('category =====>', category);
 
@@ -42,7 +65,11 @@ export default function Header() {
 
     if(!auth) return;
     dispatch(verifyLogin(auth));
+   
+  
   },[dispatch]);
+
+  useEffect(()=>{ if(user._id) dispatch(fetchCart(user._id))},[user]);
   
   return (
     <div className='fixed top-0 z-[999999] w-full'>
@@ -85,8 +112,13 @@ export default function Header() {
           <FaRegHeart className='sm:w-[22px] sm:h-7 h-5 w-[18px] cursor-pointer' />
             </Link>
           </li>
-          <li className='cursor-pointer' onClick={()=>setCartStatus(true)}>
-          <BsBagPlus className='sm:w-[22px] sm:h-7 h-5 w-[18px]' />
+          <li className='cursor-pointer relative' >
+          <BsBagPlus className='sm:w-[22px] sm:h-7 h-5 w-[18px]' onClick={()=>setCartStatus(true)} />
+            <div className='absolute bottom-[40%] left-[86%]'>
+              {
+                totalItems
+              }
+            </div>
           <Cart cartStatus={cartStatus} setCartStatus={setCartStatus} />
           </li>
         </ul>
