@@ -41,7 +41,7 @@ const { genrateOtpWeb, registerUser, verifyJwt } = require("./website/userContro
 const { activeParentCategoriesWeb } = require("./website/parentCategoryControllers");
 const { activeProductCategoriesWeb } = require("./website/productCategoryControlles");
 const { activeProductsByParentCategory } = require("./website/productControllers");
-const { createCart, readCart } = require("./website/cartControllers");
+const { createCart, readCart, deleteCart, updateCartQuantity } = require("./website/cartControllers");
 
 module.exports = {
     createParentCategory,
@@ -71,5 +71,7 @@ module.exports = {
     activeProductCategoriesWeb,
     activeProductsByParentCategory,
     createCart,
-    readCart
+    readCart,
+    deleteCart,
+    updateCartQuantity
 }
