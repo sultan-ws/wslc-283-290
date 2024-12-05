@@ -46,7 +46,8 @@ export default function Checkout() {
 
     axios.post('http://localhost:4800/api/website/payment/create-checkout', {
       address: formObject,
-      cart
+      cart,
+      totalPrice
     })
     .then((response)=>{
      loadStripe('pk_test_51LiyTNSH4QsKt7gApjEgxNySurOKQbOlLuc0XxwsqJek8ItuUyPQLIwIThhZ7Q4Ut7dYzWkrlg15v5kgV2opUJF6002wEvois3 ')
