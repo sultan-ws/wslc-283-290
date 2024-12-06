@@ -10,7 +10,8 @@ const {
     deleteParentCategories,
     readParentCategory,
     updateParentCatergory,
-    activeParentCategories
+    activeParentCategories,
+    searchParentCategory
 } = require("./admin-panel/parentCategoryControllers");
 
 //product category
@@ -76,5 +77,6 @@ module.exports = {
     deleteCart,
     updateCartQuantity,
     createCheckout,
-    setPaymentStatus
+    setPaymentStatus,
+    searchParentCategory
 }
